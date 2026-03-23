@@ -1,0 +1,287 @@
+<!--
+File: index.html
+
+Purpose:
+This file is the main frontend entry point for the AI interface.
+It defines the UI layout, loads CSS styles, initializes visual
+background effects, and loads all frontend JavaScript modules.
+
+Responsibilities:
+1. Define the main UI structure
+2. Provide containers for orb visualization and chat
+3. Load CSS stylesheets
+4. Initialize background particle effects
+5. Load ThreeJS orb renderer
+6. Load all frontend modules
+
+Architecture Role:
+index.html is the root of the frontend system.
+
+index.html
+     │
+     ▼
+CSS Layout (ui_core.css, orb.css, states.css)
+     │
+     ▼
+ThreeJS Orb Renderer
+     │
+     ▼
+Frontend Modules (voice, audio, UI controllers)
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Character encoding for proper text rendering -->
+    <meta charset="UTF-8">
+
+    <!-- Page title displayed in browser tab -->
+    <title>PROJECT – F Neural Core</title>
+
+    <!-- ==================================================
+         CORE UI STYLES
+    ================================================== -->
+
+    <!-- Main UI layout and component styling -->
+    <link rel="stylesheet" href="styles/ui_core.css">
+
+    <!-- Orb container positioning and layout -->
+    <link rel="stylesheet" href="styles/orb.css">
+
+    <!-- UI animations and state effects -->
+    <link rel="stylesheet" href="styles/states.css">
+
+    <link rel="icon" href="data:,">
+
+</head>
+
+<body>
+
+
+<!-- ==================================================
+     BACKGROUND LAYER
+================================================== -->
+
+<!-- Container for particle.js background animation -->
+<div id="bg"></div>
+
+
+<!-- ==================================================
+     APPLICATION LOGO
+================================================== -->
+
+<!-- Futuristic AI system logo -->
+<div class="logo"> COSMIC AI</div>
+
+
+<!-- ==================================================
+     MODEL STATUS DISPLAY
+================================================== -->
+
+<!-- Displays currently connected AI model -->
+<div id="model-status" class="model-status"></div>
+
+
+<!-- ==================================================
+     MAIN APPLICATION CONTAINER
+================================================== -->
+
+<div id="app">
+
+    <!-- ==================================================
+         MAIN INTERFACE AREA
+    ================================================== -->
+
+    <div id="main-area">
+
+
+        <!-- ==================================================
+             ORB PANEL (LEFT SIDE)
+        ================================================== -->
+
+        <div id="brain-panel">
+
+            <!-- Orb container section -->
+            <div id="orb-section">
+
+                <!-- ThreeJS orb renderer will mount canvas here -->
+                <div id="ai-orb-widget"></div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             CHAT PANEL (RIGHT SIDE)
+        ================================================== -->
+
+        <div id="chat-panel">
+
+            <!-- Chat messages container -->
+            <div id="chat-log"></div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ==================================================
+         INPUT BAR (VOICE + TEXT INTERACTION)
+    ================================================== -->
+
+    <div id="input-bar">
+
+
+        <!-- ==================================================
+             COMMAND BUTTON
+        ================================================== -->
+
+        <!-- Button for OS / command mode features -->
+        <button id="command-button" class="command-btn">
+            CMD
+        </button>
+
+
+
+        <!-- ==================================================
+             MICROPHONE BUTTON
+        ================================================== -->
+
+        <button id="mic-button" class="mic-btn">
+
+            <!-- SVG microphone icon -->
+            <svg viewBox="0 0 24 24" class="mic-icon">
+
+                <!-- Microphone shape path -->
+                <path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5
+                a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 14 0h-2zm-5
+                8v-3"/>
+
+            </svg>
+
+            <!-- Outer ring used for listening animation -->
+            <span class="mic-ring"></span>
+
+            <!-- Additional pulse animation layer -->
+            <span class="mic-pulse"></span>
+
+        </button>
+
+
+
+        <!-- ==================================================
+             INPUT CONTENT AREA
+        ================================================== -->
+
+        <div id="input-content">
+
+
+            <!-- TEXT INPUT LAYER -->
+            <div id="text-layer"
+                 contenteditable="true"
+                 class="text-input"
+                 data-placeholder="Ask Anything...">
+            </div>
+
+
+            <!-- VOICE SHADER CANVAS -->
+            <!-- Used for GPU-based voice visualization -->
+            <canvas id="voice-layer"></canvas>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             SEND BUTTON
+        ================================================== -->
+
+        <button id="send-button">➤</button>
+
+    </div>
+
+</div>
+
+
+
+<!-- ==================================================
+     BACKGROUND PARTICLES SYSTEM
+================================================== -->
+
+<!-- Load particles.js library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+
+<script>
+
+/*
+Initialize animated particle background.
+This creates subtle floating particle connections
+behind the AI interface.
+*/
+
+particlesJS("bg",{
+
+    particles:{
+
+        number:{value:120},
+
+        color:{value:"#00e6ff"},
+
+        opacity:{value:0.25},
+
+        size:{value:2,random:true},
+
+        line_linked:{
+            enable:true,
+            distance:130,
+            color:"#00e6ff",
+            opacity:0.2
+        },
+
+        move:{speed:2}
+
+    }
+
+});
+
+</script>
+
+
+
+<!-- ==================================================
+     THREEJS ORB RENDERER
+================================================== -->
+
+<!-- Load ThreeJS graphics library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<!-- Orb shader + energy core renderer -->
+<script src="scripts/orb_render.js"></script>
+
+
+
+<!-- ==================================================
+     MAIN FRONTEND MODULES
+================================================== -->
+
+<!-- Audio pipeline system -->
+<script type="module" src="scripts/audio_bridge.js"></script>
+
+<!-- Neural particle orb -->
+<script type="module" src="scripts/neural_orb.js"></script>
+
+
+<!-- Voice UI interaction controller -->
+<script type="module" src="scripts/voice_ui_controller.js"></script>
+
+<!-- Main UI controller (always load last) -->
+<script type="module" src="scripts/ui_app.js"></script>
+
+
+</body>
+</html>
