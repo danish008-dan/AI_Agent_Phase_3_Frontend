@@ -1,0 +1,75 @@
+/*
+File: styles/orb.css
+
+Purpose:
+This stylesheet defines the layout and positioning for the AI Orb
+visualization container.
+
+Responsibilities:
+1. Define the main section where the orb exists
+2. Position the ThreeJS orb canvas correctly on the screen
+3. Ensure the orb stays visually centered vertically
+4. Prevent the orb container from blocking user interactions
+
+Architecture Role:
+This CSS file supports the ThreeJS rendering system.
+
+orb_render.js / neural_orb.js
+        │
+        ▼
+#ai-orb-widget (DOM container)
+        │
+        ▼
+orb.css (layout + positioning)
+*/
+
+
+/* ==================================================
+   ORB SECTION CONTAINER
+================================================== */
+
+#orb-section{
+
+    /* Establish positioning context for child elements */
+    position:relative;
+
+    /* Make the section span the full available width */
+    width:100%;
+
+    /* Make the section fill the full height of its parent */
+    height:100%;
+}
+
+
+/* ==================================================
+   AI ORB WIDGET CONTAINER
+================================================== */
+
+/* This container holds the ThreeJS canvas */
+#ai-orb-widget{
+
+    /* Position orb relative to #orb-section */
+    position:absolute;
+
+    /* Shift orb slightly outside the left side of the layout
+       to create a cinematic AI interface look */
+    left:-30px;
+
+    /* Vertically center the orb container */
+    top:50%;
+
+    /* Correct vertical centering offset */
+    transform:translateY(-50%);
+
+    /* Define orb rendering area width */
+    width:560px;
+
+    /* Define orb rendering area height */
+    height:560px;
+
+    /* Prevent orb from blocking mouse interactions with UI */
+    pointer-events:none;
+
+    /* Ensure orb renders above background but below UI layers */
+    z-index:5;
+}
