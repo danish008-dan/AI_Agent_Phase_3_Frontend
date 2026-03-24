@@ -1,0 +1,108 @@
+/*
+File: styles/states.css
+
+Purpose:
+This stylesheet defines reusable UI animations used by the AI interface.
+
+It currently provides animation keyframes that can be applied to
+UI elements such as the microphone button, input bar, orb container,
+or other visual components.
+
+Responsibilities:
+1. Define pulse animation for subtle breathing / listening effects
+2. Define rotation animation for loading or processing indicators
+3. Provide reusable animations across different UI components
+
+Architecture Role:
+These animations are triggered by UI state changes.
+
+state_manager.js
+        │
+        ▼
+ui_mode_controller.js / voice_ui_controller.js
+        │
+        ▼
+CSS classes applied to DOM elements
+        │
+        ▼
+states.css animations
+*/
+
+
+/* ==================================================
+   PULSE ANIMATION
+================================================== */
+
+/*
+Creates a gentle breathing/pulsing effect.
+
+Common uses:
+- Mic listening animation
+- Orb idle breathing
+- Input bar active state
+*/
+
+@keyframes pulse {
+
+    /* Initial size */
+    0% {
+        transform: scale(1);
+    }
+
+    /* Slightly enlarge element */
+    50% {
+        transform: scale(1.05);
+    }
+
+    /* Return to normal size */
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+
+/* ==================================================
+   ROTATE ANIMATION
+================================================== */
+
+/*
+Creates a continuous rotation effect.
+
+Common uses:
+- Loading indicators
+- Processing animation
+- AI thinking spinner
+*/
+
+@keyframes rotate {
+
+    /* Starting rotation */
+    from {
+        transform: rotate(0deg);
+    }
+
+    /* Complete 360° rotation */
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.os-mode-active #input-bar{
+    box-shadow:0 0 40px #00e6ff;
+}
+
+.os-mode-active #input-bar::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:20px;
+    animation: pulseGlow 1.5s infinite;
+    pointer-events:none;
+}
+
+@keyframes pulseGlow{
+0%   { box-shadow:0 0 0px #00e6ff; }
+50%  { box-shadow:0 0 30px #00e6ff; }
+100% { box-shadow:0 0 0px #00e6ff; }
+}
