@@ -43,3 +43,29 @@ This project integrates advanced UI design, real-time AI streaming, speech synth
 ---
 
 ## PROJECT STRUCTURE
+
+graphic_ai/
+│
+├── index.html
+│
+├── styles/
+│   ├── ui_core.css
+│   ├── orb.css
+│   └── states.css
+│
+├── config/
+│   └── ui_states.js
+│
+└── scripts/
+    ├── ui_app.js
+    ├── state_manager.js
+    ├── api_client.js
+    ├── orb_controller.js
+    ├── audio_visualizer.js
+    ├── audio_bridge.js
+    ├── neural_orb.js
+    ├── orb_render.js
+    ├── speech_stream.js
+    ├── ui_mode_controller.js
+    ├── voice_shader.js
+    └── voice_ui_controller.js
