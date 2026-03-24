@@ -1,0 +1,547 @@
+/*
+File: styles/ui_core.css
+
+Purpose:
+This stylesheet defines the core layout and visual structure of the
+AI interface.
+
+It controls the global UI layout including:
+- Base page structure
+- Orb + chat panel layout
+- Chat message rendering
+- Modern AI input bar
+- Voice interaction layers
+- Microphone button animations
+- Send button behavior
+
+Architecture Role:
+This file acts as the central UI styling system.
+
+ui_core.css
+      │
+      ▼
+DOM Layout Structure
+      │
+      ▼
+UI Components (chat, input bar, orb area)
+      │
+      ▼
+JavaScript Controllers
+(state_manager.js, ui_mode_controller.js, voice_ui_controller.js)
+*/
+
+
+/* =========================================================
+   BASE LAYOUT
+========================================================= */
+
+body{
+
+    /* Black background for futuristic AI interface */
+    background:#000;
+
+    /* Remove default browser margin */
+    margin:0;
+
+    /* Full viewport height */
+    height:100vh;
+
+    /* Prevent scrolling for fixed UI layout */
+    overflow:hidden;
+
+    /* Futuristic monospace font used in AI dashboards */
+    font-family:'Orbitron', monospace;
+}
+
+
+/* Background layer for visual effects (particles, shader, etc.) */
+#bg{
+
+    position:fixed;
+
+    /* shorthand for top,right,bottom,left = 0 */
+    inset:0;
+
+    /* Behind main UI */
+    z-index:0;
+}
+
+
+/* =========================================================
+   APP LOGO
+========================================================= */
+
+.logo{
+
+    /* Fixed position at top center */
+    position:fixed;
+
+    top:40px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    /* Large futuristic text */
+    font-size:42px;
+
+    font-weight:900;
+
+    letter-spacing:6px;
+
+    /* Neon gradient effect */
+    background:linear-gradient(45deg,#00e6ff,#ffffff,#00e6ff);
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+
+    /* Glow effect */
+    filter:drop-shadow(0 0 18px #00e6ff);
+
+    /* Ensure logo sits above UI layers */
+    z-index:15;
+}
+
+
+/* =========================================================
+   MAIN APP CONTAINER
+========================================================= */
+
+#app{
+
+    /* Relative positioning container */
+    position:relative;
+
+    /* Above background */
+    z-index:2;
+
+    /* Full viewport height */
+    height:100vh;
+}
+
+
+/* =========================================================
+   MAIN CONTENT AREA
+========================================================= */
+
+#main-area{
+
+    position:absolute;
+
+    /* Leave space for header/logo */
+    top:120px;
+
+    /* Leave space for input bar */
+    bottom:140px;
+
+    left:0;
+    right:0;
+
+    /* Flex layout for panels */
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    /* Horizontal spacing */
+    padding:0 80px;
+}
+
+
+/* =========================================================
+   PANELS
+========================================================= */
+
+/* Left panel for AI brain / orb visualization */
+#brain-panel{
+
+    width:40%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+}
+
+
+/* Right panel for chat conversation */
+#chat-panel{
+
+    width:45%;
+
+    height:80%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    background:transparent;
+}
+
+
+/* =========================================================
+   CHAT MESSAGES
+========================================================= */
+
+.message{
+
+    /* Limit message bubble width */
+    max-width:70%;
+
+    padding:12px 16px;
+
+    border-radius:14px;
+
+    line-height:1.5;
+
+    color:white;
+
+    /* Subtle glass border */
+    border:1px solid rgba(255,255,255,0.15);
+}
+
+/* Align user messages to right side */
+.user{ align-self:flex-end; }
+
+/* Align AI responses to left side */
+.ai{ align-self:flex-start; }
+
+
+/* Chat container */
+#chat-log{
+
+    flex:1;
+
+    display:flex;
+
+    /* New messages appear at bottom visually */
+    flex-direction:column-reverse;
+
+    overflow-y:auto;
+
+    gap:12px;
+
+    padding-bottom:10px;
+
+    /* Hide scrollbar */
+    scrollbar-width:none;
+}
+
+#chat-log::-webkit-scrollbar{ display:none; }
+
+
+/* =========================================================
+   MODERN AI INPUT BAR
+========================================================= */
+
+#input-bar{
+
+    /* Fixed floating input bar */
+    position:fixed;
+
+    bottom:32px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:min(920px,88%);
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    padding:14px 16px;
+
+    /* Glassmorphism style background */
+    background:rgba(15,18,24,0.65);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    border-radius:20px;
+
+    /* Subtle depth effect */
+    box-shadow:
+        0 10px 40px rgba(0,0,0,.6),
+        inset 0 0 20px rgba(0,255,255,.05);
+}
+
+
+/* =========================================================
+   INPUT CONTENT LAYERS (TEXT <-> VOICE SHADER)
+========================================================= */
+
+#input-content{
+
+    position:relative;
+
+    flex:1;
+
+    min-height:52px;
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+    background:#0f172a;
+}
+
+
+/* TEXT INPUT LAYER */
+#text-layer{
+
+    position:absolute;
+
+    inset:0;
+
+    padding:12px;
+
+    color:white;
+
+    outline:none;
+
+    font-size:16px;
+
+    line-height:1.6;
+
+    letter-spacing:.3px;
+
+    z-index:2;
+
+    transition:opacity .25s ease;
+}
+
+
+/* Placeholder text when input empty */
+#text-layer:empty:not(:focus)::before{
+
+    content:attr(data-placeholder);
+
+    color:rgba(255,255,255,.45);
+}
+
+
+/* VOICE SHADER CANVAS LAYER */
+#voice-layer{
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:1;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transition:opacity .35s ease;
+}
+
+
+/* LISTENING MODE SWITCH */
+
+.input-listening #text-layer{
+
+    opacity:0;
+
+    pointer-events:none;
+}
+
+.input-listening #voice-layer{
+
+    opacity:1;
+}
+
+
+/* =========================================================
+   MIC BUTTON (PRIMARY ACTION)
+========================================================= */
+
+.mic-btn{
+
+    position:relative;
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(0,255,255,.25);
+
+    background:linear-gradient(145deg,#021418,#06242c);
+
+    box-shadow:0 0 20px rgba(0,255,255,.15);
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+}
+
+
+/* =========================================================
+   COMMAND BUTTON (OS MODE)
+========================================================= */
+
+.command-btn{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:14px;
+
+    border:1px solid rgba(255,140,0,.25);
+
+    background:linear-gradient(145deg,#1a1200,#2c1c00);
+
+    color:#ffb347;
+
+    font-family:'Orbitron', monospace;
+
+    font-weight:700;
+
+    letter-spacing:1px;
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    transition:.25s ease;
+
+    box-shadow:0 0 20px rgba(255,140,0,.15);
+}
+
+.command-btn:hover{
+
+    background:rgba(255,140,0,.15);
+
+    transform:translateY(-2px);
+
+    box-shadow:0 0 25px rgba(255,140,0,.4);
+}
+
+.command-btn:active{
+
+    transform:scale(.95);
+}
+
+
+/* MIC ICON SVG STYLE */
+
+.mic-icon{
+
+    width:22px;
+
+    height:22px;
+
+    stroke:#7ef9ff;
+
+    stroke-width:1.7;
+
+    fill:none;
+}
+
+
+/* =========================================================
+   MIC BUTTON ANIMATIONS
+========================================================= */
+
+/* outer ring around mic button */
+.mic-ring{
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:50%;
+
+    border:1px solid rgba(0,255,255,.25);
+}
+
+
+/* breathing animation while listening */
+.mic-btn.listening .mic-ring{
+
+    animation:micBreath 1.4s ease-in-out infinite;
+}
+
+@keyframes micBreath{
+
+    0%,100%{transform:scale(1);opacity:.7}
+
+    50%{transform:scale(1.18);opacity:1}
+}
+
+
+/* processing spin animation */
+.mic-btn.processing .mic-ring{
+
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+
+    from{transform:rotate(0deg)}
+
+    to{transform:rotate(360deg)}
+}
+
+
+/* =========================================================
+   SEND BUTTON (SECONDARY ACTION)
+========================================================= */
+
+#send-button{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.06);
+
+    border:1px solid rgba(255,255,255,.1);
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+#send-button:hover{
+
+    background:rgba(0,255,255,.15);
+
+    transform:translateY(-1px);
+}
+
+
+/* =========================================================
+   GLOBAL CANVAS SAFETY
+========================================================= */
+
+/* Prevent canvas layers from interfering with UI */
+canvas{
+
+    z-index:0 !important;
+
+    position:fixed !important;
+}
